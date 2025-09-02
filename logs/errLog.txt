@@ -1,0 +1,2 @@
+20250902	20:28:43	ccdd7827-65e9-4332-b36d-979087df4140	TypeError: User.findOne is not a function
+20250902	20:35:02	182c5b25-c9b2-4b95-b00f-8acd02993202	TypeError: User.findOne is not a function
