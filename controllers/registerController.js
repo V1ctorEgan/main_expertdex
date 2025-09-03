@@ -3,6 +3,7 @@ const User = require('../model/Users');
 const bcrypt = require('bcryptjs');
 
 const handleNewUser = async (req, res) => {
+    console.log("Incoming req.body:", req.body);
     const { name, user, pwd, accountType } = req.body;
     if (!user || !pwd || !accountType) return res.status(400).json({ 'message': 'Username and password are required.' });
     // check for duplicate usernames in the db

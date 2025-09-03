@@ -7,3 +7,6 @@
 20250902	20:44:36	200bff79-f8d1-428f-ac96-886c0abdcf4a	POST	undefined	/register
 20250902	20:47:30	a00517f6-d94f-49d7-8052-d01df6ac1f02	POST	undefined	/register
 20250902	20:48:44	69edcf06-5b9f-44e4-b2b9-cc0970f9063f	POST	undefined	/register
+20250902	20:53:51	7534a58e-b3a4-46e6-b521-f31a916219fc	POST	undefined	/register
+20250902	21:17:39	6096f4fe-4873-4e35-929d-fe1f8f893dfb	POST	undefined	/register
+20250902	21:20:13	5a17259d-0c61-44ea-8f16-09b1f2404d5e	POST	undefined	/auth
