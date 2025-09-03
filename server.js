@@ -50,6 +50,7 @@ app.use(verifyJWT)
 app.use('/company', require('./routes/api/company'));
 app.use('/accounts', require('./routes/api/accounts'));
 app.use('/vehicle', require('./routes/api/vehicle'));
+app.use('/driver', require('./routes/api/driver'))
 app.use((req, res) => {
     res.status(404);
     if (req.accepts('html')) {

@@ -13,8 +13,7 @@ const userSchema = new mongoose.Schema({
         lowercase: true, // Store emails in lowercase for consistency
         match: [/.+@.+\..+/, 'Please fill a valid email address'] // Basic email regex validation
     },
-    // ExpertDex roles are more specific than generic User/Editor/Admin
-    // They are 'individual', 'company', 'driver'
+
     accountType: {
         type: String,
         enum: ['individual', 'company', 'driver'], // Enforces specific values
