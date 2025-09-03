@@ -1,0 +1,2 @@
+        // An Admin can assign any vehicle to any driver.
+        // A Company user can only assign their OWN vehicles to drivers associated with their company.
