@@ -1,4 +1,4 @@
-const DriverProfile = require('../model/Driver');
+const DriverProfile = require('../model/DriverProfile');
 const Vehicle = require("../model/Vehicle");
 const User = require('../model/Users')
 const Company = require("../model/Company");
