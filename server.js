@@ -53,6 +53,7 @@ app.use('/vehicle', require('./routes/api/vehicle'));
 app.use('/driver', require('./routes/api/driver'))
 
 app.use('/bookings', require('./routes/api/booking'));
+app.use('/payments', require('./routes/api/payment'));
 app.use((req, res) => {
     res.status(404);
     if (req.accepts('html')) {

@@ -16,7 +16,7 @@ router.route('/:id')
     .put(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Driver]), bookingController.updateBookingStatus); // Used for status update
 
 router.route('/cancel/:id')
-    .put(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Customer]), bookingController.cancelBooking);
+    .put(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Individual]), bookingController.cancelBooking);
 
 router.route('/assign-driver/:id')
     .put(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company]), bookingController.assignDriverToBooking);
