@@ -39,18 +39,21 @@ app.use(cookieParser());
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 // routes
-console.log("here we are 1")
+
 app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 app.use(verifyJWT)
-console.log("here we are")
+
 app.use('/company', require('./routes/api/company'));
 app.use('/accounts', require('./routes/api/accounts'));
 app.use('/vehicle', require('./routes/api/vehicle'));
-console.log('All routes loaded successfully! r');
+app.use('/driver', require('./routes/api/driver'))
+
+app.use('/bookings', require('./routes/api/booking'));
+app.use('/payments', require('./routes/api/payment'));
 app.use((req, res) => {
     res.status(404);
     if (req.accepts('html')) {
@@ -63,7 +66,6 @@ app.use((req, res) => {
 });
 
 
-console.log('here now.');
 app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
