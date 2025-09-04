@@ -2,6 +2,7 @@ const DriverProfile = require('../model/DriverProfile');
 const Vehicle = require("../model/Vehicle");
 const User = require('../model/Users')
 const Company = require("../model/Company");
+console.log("driver loging")
 const getAllDrivers = async (req, res) => {
     try {
 

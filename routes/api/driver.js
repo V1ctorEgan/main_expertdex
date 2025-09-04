@@ -15,3 +15,5 @@ router.route('/:id')
     .get(driverProfileController.getDriverProfile)
     .put(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company]), driverProfileController.assignVehicleToDriver)
     .delete(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Driver]), driverProfileController.deleteDriverProfile);
+
+module.exports = router;
