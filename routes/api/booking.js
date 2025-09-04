@@ -6,20 +6,28 @@ const verifyRoles = require('../../middleware/verifyRoles');
 const ROLES_LIST = require('../../config/roles_list');
 
 
-    
-router.route('/')
-    .get(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Individual, ROLES_LIST.Driver]), bookingController.getAllBookings)
-    .post(verifyJWT, verifyRoles([ROLES_LIST.Customer]), bookingController.createNewBooking);
+module.exports = (io) => {
+    // All routes below this line will have access to `io`.
 
-router.route('/:id')
-    .get(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Individual, ROLES_LIST.Driver]), bookingController.getBooking)
-    .put(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Driver]), bookingController.updateBookingStatus); // Used for status update
+    router.route('/')
+        // Correct: All authenticated GET requests need verifyJWT first
+        .get(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Individual, ROLES_LIST.Driver]), bookingController.getAllBookings)
+        // Correct: All authenticated POST requests need verifyJWT first
+        .post(verifyJWT, verifyRoles([ROLES_LIST.Individual]), (req, res, next) => bookingController.createNewBooking(req, res, next, io));
 
-router.route('/cancel/:id')
-    .put(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Individual]), bookingController.cancelBooking);
+    router.route('/:id')
+        // Correct: All authenticated GET requests need verifyJWT first
+        .get(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Individual, ROLES_LIST.Driver]), bookingController.getBooking)
+        // Correct: All authenticated PUT requests need verifyJWT first
+        .put(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Driver]), (req, res, next) => bookingController.updateBookingStatus(req, res, next, io));
 
-router.route('/assign-driver/:id')
-    .put(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company]), bookingController.assignDriverToBooking);
+    router.route('/cancel/:id')
+        // Correct: All authenticated PUT requests need verifyJWT first
+        .put(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Individual]), bookingController.cancelBooking);
 
+    router.route('/assign-driver/:id')
+        // Correct: All authenticated PUT requests need verifyJWT first
+        .put(verifyJWT, verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company]), bookingController.assignDriverToBooking);
 
-module.exports = router;
+    return router;
+};

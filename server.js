@@ -11,7 +11,18 @@ const cookieParser = require('cookie-parser');
 const Credential = require("./middleware/credentials")
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
+const http = require('http');
+const { Server } = require("socket.io");
+const server = http.createServer(app);
 const PORT = process.env.PORT || 3501;
+
+// Initialize Socket.IO and attach it to the HTTP server
+const io = new Server(server, {
+    cors: {
+        origin: process.env.CLIENT_URL, // Allow connections from your frontend
+        methods: ["GET", "POST"]
+    }
+});
 
 
 // Connect to MongoDB
@@ -51,8 +62,9 @@ app.use('/company', require('./routes/api/company'));
 app.use('/accounts', require('./routes/api/accounts'));
 app.use('/vehicle', require('./routes/api/vehicle'));
 app.use('/driver', require('./routes/api/driver'))
+console.log('here')
 
-app.use('/bookings', require('./routes/api/booking'));
+app.use('/bookings', require('./routes/api/booking')(io));
 app.use('/payments', require('./routes/api/payment'));
 app.use((req, res) => {
     res.status(404);
@@ -65,10 +77,17 @@ app.use((req, res) => {
     }
 });
 
+io.on('connection', (socket) => {
+    console.log(`User connected: ${socket.id}`);
 
+    // Listen for a 'disconnect' event
+    socket.on('disconnect', () => {
+        console.log(`User disconnected: ${socket.id}`);
+    });
+});
 app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });

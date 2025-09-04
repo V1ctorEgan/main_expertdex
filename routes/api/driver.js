@@ -8,7 +8,7 @@ const ROLES_LIST = require('../../config/roles_list');
 
 router.route('/')
     .get(driverProfileController.getAllDrivers)
-    .post(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Driver]),driverProfileController.createNewDriverProfile)
+    .post(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Driver]),driverProfileController.createNewDriverProfile);
     
 
 router.route('/:id')
