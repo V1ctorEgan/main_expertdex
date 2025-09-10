@@ -147,3 +147,6 @@
 20250910	11:57:19	fa46d6a0-7bbc-4713-9375-b09da9dc58ce	PUT	undefined	/bookings/68c156658bc99703200e4137
 20250910	12:00:06	230c7e8b-510c-4641-ba3e-bc9fb76d42d2	PUT	undefined	/bookings/assign-driver/68c156658bc99703200e4137
 20250910	12:00:27	7155c74e-b7cc-47ca-960b-226f5b384961	PUT	undefined	/bookings/assign-driver/68c156658bc99703200e4137
+20250910	12:43:13	b8b8ab00-1f5a-4b71-bb15-b0773f399bd3	POST	undefined	/auth
+20250910	12:43:54	102e3ffe-bd68-4c1a-9d4c-e0b1b5675aaf	POST	undefined	/register
+20250910	12:44:52	3d3546c4-428a-4db8-8660-072da69e883e	POST	undefined	/auth
