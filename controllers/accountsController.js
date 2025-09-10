@@ -1,7 +1,8 @@
 const Employee = require('../model/Employee');
+const User = require("../model/Users")
 
 const getAllEmployees = async (req, res) => {
-    const employees = await Employee.find();
+    const employees = await User.find();
     if (!employees) return res.status(204).json({"message": "no employees found"});
     console.log(employees)
     res.json(employees);

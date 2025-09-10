@@ -1,2 +1,5 @@
 20250902	20:28:43	ccdd7827-65e9-4332-b36d-979087df4140	TypeError: User.findOne is not a function
 20250902	20:35:02	182c5b25-c9b2-4b95-b00f-8acd02993202	TypeError: User.findOne is not a function
+20250910	10:33:45	0ee54dc1-0a92-44a8-b389-2408c389aa0d	SyntaxError: Unexpected token '"', ""contactPh"... is not valid JSON
+20250910	10:53:43	c95460a4-c8a7-4c56-b1ec-4f7d77ebf723	SyntaxError: Expected double-quoted property name in JSON at position 32 (line 4 column 1)
+20250910	11:51:00	7b4083f2-5c05-4275-8eff-d35ac480b3f7	ValidationError: Users validation failed: accountType: `admin` is not a valid enum value for path `accountType`.

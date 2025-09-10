@@ -25,14 +25,13 @@ const getAllDrivers = async (req, res) => {
 };
 
 const assignVehicleToDriver = async (req, res) => {
-    // Get the driver profile ID to be updated and the vehicle ID to assign.
-    // Assuming this is a PUT request with a body like { "vehicleId": "..." }
+    
     const { vehicleId } = req.body;
     const driverProfileId = req.params.id; // From the URL, e.g., /driver-profiles/assign/:id
 
     // Get the logged-in user's details for ownership/role checks
-    const loggedInUserId = req.user.id;
-    const loggedInAccountType = req.user.accountType;
+    const loggedInUserId = req.userId;
+    const loggedInAccountType = req.accountType;
 
     if (!driverProfileId || !vehicleId) {
         return res.status(400).json({ "message": "Driver profile ID and Vehicle ID are required for assignment." });
@@ -218,7 +217,7 @@ const deleteDriverProfile = async (req, res) => {
     }
 
     try {
-        const driverProfile = await DriverProfile.findById(driverProfileId).exec();
+        const driverProfile = await DriverProfile.findOne({ _id: driverProfileId }).exec();        
 
         if (!driverProfile) {
             return res.status(404).json({ "message": `No driver profile matches ID ${driverProfileId}.` });
@@ -273,4 +272,4 @@ const getDriverProfile = async (req, res) => {
         res.status(500).json({ "message": "Server error while fetching driver profile." });
     }
 };
-module.exports = {assignVehicleToDriver, getAllDrivers, updateDriverProfile, deleteDriverProfile, getDriverProfile, createNewDriverProfile}
+module.exports = {assignVehicleToDriver, getAllDrivers, updateDriverProfile, deleteDriverProfile, getDriverProfile, createNewDriverProfile, }

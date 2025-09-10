@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
 
     accountType: {
         type: String,
-        enum: ['individual', 'company', 'driver'], // Enforces specific values
+        enum: ['individual', 'company', 'driver', 'admin'], // Enforces specific values
         required: [true, 'Account type is required']
     },
     password: {

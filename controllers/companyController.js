@@ -16,17 +16,16 @@ const createNewCompanies = async (req, res) => {
      if (!name || !address) {
         return res.status(400).json({'message': 'Name and address are required.' });
     }
-    console.log("i am here")
     try{
         const result = await Company.create({
-            name: name, // This should be req.body.name, not req.body.firstname
-            address: address, // This should be req.body.address, not req.body.lastname
-            contactEmail: contactEmail, // Add other fields from your schema
+            name: name, 
+            address: address, 
+            contactEmail: contactEmail, 
             contactPhone: contactPhone,
             description: description,
             industry: industry,
             website: website,
-            userId: loggedInUserId // This is crucial for linking to the User model
+            userId: loggedInUserId 
         });
         res.status(201).json(result)
     } catch(err){
@@ -110,7 +109,7 @@ const getCompany = async (req, res) => {
     const companyId = req.params.id;
     if (!companyId) return res.status(400).json({ 'message': 'Company ID required.' });
 
-    const company = await Company.findOne({ _id: req.params.userIdid }).exec();
+    const company = await Company.findOne({ _id: companyId }).exec();
     if (!company) {
         return res.status(404).json({ "message": `No company matches ID ${req.params.userId}.` });
     }

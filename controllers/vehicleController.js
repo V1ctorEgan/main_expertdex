@@ -3,6 +3,7 @@ const Company = require("../model/Company");
 
 
 const getAllVehicles = async (req,res) =>{
+    console.log("here is vehicle")
     const vehicles = await Vehicle.find();
     if (!vehicles || vehicles.length === 0) return res.status(204).json({"message": "no Vehicles found"});
     console.log(vehicles)
@@ -110,13 +111,13 @@ const updateVehicle = async (req, res) =>{
 
 const deleteVehicle = async (req, res) =>{
     const vehicleId =  req.params.id
-    const loggedInUserId = req.user;
+    const loggedInUserId = req.userId;
     const loggedInAccountType = req.accountType;
 
     if (!vehicleId) return res.status(400).json({"message":"vehicle ID required to delete"});
 
     try{
-        const vehicle = await Vehicle.Vehicle.findById(vehicleId).exec();
+        const vehicle = await Vehicle.findOne({ _id: vehicleId }).exec();
         if(!vehicle) return res.send(404).json({"message":`no vehicle ID matches ${vehicleId}`});
 
         // ---  OWNERSHIP CHECK ---
@@ -157,5 +158,48 @@ const getVehicle = async (req, res) => {
     }
     
 }
+const patchVehicle = async (req, res) => {
+    const { id } = req.params;
+    const updateFields = req.body;
+    const loggedInUserId = req.userId;
+    const loggedInAccountType = req.accountType;
 
-module.exports = {getAllVehicles, getVehicle, createNewVehicle, deleteVehicle, updateVehicle};
+    if (!id) return res.status(400).json({ "message": "Vehicle ID is required for update." });
+
+    try {
+        const vehicle = await Vehicle.findOne({ _id: id }).exec();
+        if (!vehicle) {
+            return res.status(404).json({ "message": `No vehicle with ID ${id} found.` });
+        }
+
+        // Ownership check: Ensure the user is an admin or owns the vehicle
+        if (loggedInAccountType !== 'admin') {
+            const userCompany = await Company.findOne({ userId: loggedInUserId }).exec();
+            if (!userCompany || vehicle.companyId.toString() !== userCompany._id.toString()) {
+                return res.status(403).json({ message: 'Forbidden: You can only update vehicles owned by your company.' });
+            }
+        }
+        
+        // Applying updates conditionally based on the fields sent in the request body
+        // This is the core logic of the PATCH method
+        for (const key in updateFields) {
+            if (Object.prototype.hasOwnProperty.call(updateFields, key)) {
+                // Check if the field exists on the vehicle model to prevent unexpected fields from being added
+                if (vehicle[key] !== undefined) {
+                    vehicle[key] = updateFields[key];
+                }
+            }
+        }
+
+        const result = await vehicle.save();
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        if (err.name === 'ValidationError') {
+            return res.status(400).json({ message: err.message });
+        }
+        res.status(500).json({ message: "Error updating Vehicle." });
+    }
+};
+
+module.exports = {getAllVehicles, getVehicle, createNewVehicle, deleteVehicle, updateVehicle, patchVehicle};

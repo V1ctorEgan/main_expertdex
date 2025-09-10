@@ -14,7 +14,7 @@ const verifyJWT = (req, res, next) => {
             console.log('here o')
             if (err) return res.sendStatus(403); //invalid token
             console.log("passed")
-            req.user = decoded.UserInfo.email;
+            req.user = decoded.UserInfo;
             req.accountType = decoded.UserInfo.accountType;
             req.userId = decoded.UserInfo.id
             next();

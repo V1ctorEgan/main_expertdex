@@ -7,12 +7,12 @@ const verifyRoles = require('../../middleware/verifyRoles');
 router.route('/')
     .get(vehicleController.getAllVehicles)
     .post(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Driver, ROLES_LIST.Company]), vehicleController.createNewVehicle)
-    .put(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Driver, ROLES_LIST.Company]), vehicleController.updateVehicle)
-    .delete(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Driver, ROLES_LIST.Company]), vehicleController.deleteVehicle);
+    // .put(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Driver, ROLES_LIST.Company]), vehicleController.updateVehicle)
+    // .delete(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Driver, ROLES_LIST.Company]), vehicleController.deleteVehicle);
 
 router.route('/:id')
     .get(vehicleController.getVehicle)
     .put(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Driver,ROLES_LIST.Company]), vehicleController.updateVehicle)
+    .patch(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Driver,ROLES_LIST.Company]), vehicleController.patchVehicle)
     .delete(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Driver, ROLES_LIST.Company]), vehicleController.deleteVehicle)
-console.log("Loading vehicle routes...");
 module.exports = router;

@@ -7,7 +7,6 @@ const verifyRoles = require('../../middleware/verifyRoles');
 router.route('/')
     .get(companyController.getAllCompanies)
     .post(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company]), companyController.createNewCompanies)
-    .put(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company]), companyController.updateCompany)
     .delete(verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company]), companyController.deleteCompany);
 
 router.route('/:id')

@@ -16,9 +16,10 @@ const companySchema = new mongoose.Schema({
         unique: true // Company names should ideally be unique
     },
     address: {
-        type: String,
-        required: [true, 'Company address is required'],
-        trim: true
+        street: String,
+        city: String,
+        state: String,
+        zipCode: String
     },
     contactEmail: { // Specific email for company contact
         type: String,

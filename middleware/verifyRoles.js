@@ -1,7 +1,6 @@
 const verifyRoles = (allowedRoles) => {
 
     return (req, res, next)=>{
-        // console.log("i am here")
         // console.log(req);
         if (!req?.accountType) return res.sendStatus(401);
         // const rolesArray = [...allowedRoles];
