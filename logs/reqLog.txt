@@ -150,3 +150,5 @@
 20250910	12:43:13	b8b8ab00-1f5a-4b71-bb15-b0773f399bd3	POST	undefined	/auth
 20250910	12:43:54	102e3ffe-bd68-4c1a-9d4c-e0b1b5675aaf	POST	undefined	/register
 20250910	12:44:52	3d3546c4-428a-4db8-8660-072da69e883e	POST	undefined	/auth
+20250910	13:55:23	ff575486-f679-45c8-a860-caff4aff54b8	POST	undefined	/register
+20250910	13:55:49	d903a6ee-51f9-47a9-b0fd-1eb6172df2aa	POST	undefined	/register

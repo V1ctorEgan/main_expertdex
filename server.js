@@ -14,7 +14,7 @@ const connectDB = require('./config/dbConn');
 const http = require('http');
 const { Server } = require("socket.io");
 const server = http.createServer(app);
-const PORT = process.env.PORT || 3501;
+const PORT = process.env.PORT || 3000;
 
 // Initialize Socket.IO and attach it to the HTTP server
 const io = new Server(server, {
