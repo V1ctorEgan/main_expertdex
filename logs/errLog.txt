@@ -3,3 +3,4 @@
 20250910	10:33:45	0ee54dc1-0a92-44a8-b389-2408c389aa0d	SyntaxError: Unexpected token '"', ""contactPh"... is not valid JSON
 20250910	10:53:43	c95460a4-c8a7-4c56-b1ec-4f7d77ebf723	SyntaxError: Expected double-quoted property name in JSON at position 32 (line 4 column 1)
 20250910	11:51:00	7b4083f2-5c05-4275-8eff-d35ac480b3f7	ValidationError: Users validation failed: accountType: `admin` is not a valid enum value for path `accountType`.
+20260106	14:33:04	efde1cbb-0144-48b7-a2cc-581f35484521	ReferenceError: user is not defined
