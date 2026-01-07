@@ -5,6 +5,7 @@ const whitelist = [
   "http://localhost:3000",
   "http://localhost:5173",
   "https://main.expertdex.onrender.com",
+  "https://expertdex-mobile.vercel.app",
 ];
 
 const corsOptions = {
