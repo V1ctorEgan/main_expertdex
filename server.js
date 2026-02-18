@@ -55,21 +55,26 @@ app.use("/register", require("./routes/register"));
 app.use("/auth", require("./routes/auth"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
+
+app.use("/company/onboarding", require("./routes/api/companyOnboarding"));
+app.use("/driver/onboarding", require("./routes/api/driverOnboarding"));
+
 app.use(verifyJWT);
 
 app.use("/company", require("./routes/api/company"));
 app.use("/accounts", require("./routes/api/accounts"));
 app.use("/vehicle", require("./routes/api/vehicle"));
 app.use("/driver", require("./routes/api/driver"));
-console.log("here");
+// app.use("/job", require("./routes/api/job"));
+app.use("/provider", require("./routes/api/job"));
 
-app.use("/bookings", require("./routes/api/booking")(io));
+app.use("/bookings", require("./routes/api/booking"));
 app.use("/payments", require("./routes/api/payment"));
 app.use((req, res) => {
   res.status(404);
   if (req.accepts("html")) {
     res.send(
-      "<h1>404 - Page Not Found</h1><p>The page you are looking for does not exist.</p>"
+      "<h1>404 - Page Not Found</h1><p>The page you are looking for does not exist.</p>",
     );
   } else if (req.accepts("json")) {
     res.json({ error: "404 Not Found" });

@@ -1,72 +1,106 @@
-const mongoose = require('mongoose');
- 
-const driverSchema = new mongoose.Schema({
-    // Link to the User account (Driver can be an 'individual' user type)
+const mongoose = require("mongoose");
+const driverProfileSchema = new mongoose.Schema(
+  {
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User', // References your User model
-        unique: true // A user can only register as a driver once
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+      required: true,
+      unique: true, // One driver profile per user
     },
-    // Optional: Link to the Company if the driver is employed by a company
-    companyId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company', // References your Company model
-        required: function() {
-            // This field is required if the driver is associated with a company.
-            // You might have a separate flag or determine this based on context.
-            // For now, it's optional, indicating individual drivers also exist.
-            return false; // Set to true if all drivers MUST belong to a company
-        }
+    firstName: {
+      type: String,
+      required: [true, "First name is required"],
+      trim: true,
     },
-    licenseNumber: { // Unique driver's license number
-        type: String,
-        required: true,
-        unique: true,
-        trim: true
+    lastName: {
+      type: String,
+      required: [true, "Last name is required"],
+      trim: true,
     },
-    licenseExpirationDate: {
-        type: Date,
-        required: true
+    profileImage: {
+      type: String, // base64 string or URL
+      default: null,
     },
-    driverRating: { // Average rating from completed bookings
-        type: Number,
-        min: 1,
-        max: 5,
-        default: 5
+    bio: {
+      type: String,
+      trim: true,
+      default: "",
     },
-    currentLocation: { // For tracking driver's current position
-        type: {
-            type: String,
-            enum: ['Point'],
-            default: 'Point'
-        },
-        coordinates: {
-            type: [Number], // [longitude, latitude]
-            default: [0, 0]
-        }
+    phone: {
+      type: String,
+      required: [true, "Phone number is required"],
     },
-    isActive: { // To indicate if the driver is currently available for assignments/bookings
-        type: Boolean,
-        default: true
+    dob: {
+      type: Date,
+      required: [true, "Date of birth is required"],
     },
-    assignedVehicle:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Vehicle',
-        default:null
+    gender: {
+      type: String,
+      enum: ["Male", "Female"],
+      required: [true, "Gender is required"],
     },
-    vehicleId: { // Optional: The ID of the vehicle the driver is currently assigned to or uses
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Vehicle'
+    ownCar: {
+      type: String,
+      enum: ["yes", "no"],
+      required: [true, "Please indicate if you own a car"],
     },
-  
-    profilePictureUrl: {
-        type: String,
-        default: 'null'
-    },
-    
-}, {
-    timestamps: true // Adds createdAt and updatedAt fields automatically
-});
 
-module.exports = mongoose.model('Driver', driverSchema);
+    // Vehicle Information (only if ownCar === "yes")
+    vehicle: {
+      vehicleName: {
+        type: String,
+        default: "",
+      },
+      vehicleModel: {
+        type: String,
+        default: "",
+      },
+      vehicleColor: {
+        type: String,
+        default: "",
+      },
+    },
+
+    // License & Registration
+    licenseImage: {
+      type: String, // base64 string or URL
+      required: [true, "License image is required"],
+    },
+    nin: {
+      type: String,
+      required: [true, "NIN is required"],
+      trim: true,
+    },
+
+    // Status & Assignment
+    isAvailable: {
+      type: Boolean,
+      default: true,
+    },
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CompanyProfiles",
+      default: null, // null = independent driver, not assigned to any company
+    },
+    assignedVehicleId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Vehicles", // For when company assigns a vehicle
+      default: null,
+    },
+
+    // Verification & Approval
+    isVerified: {
+      type: Boolean,
+      default: false, // Admin verifies driver documents
+    },
+    isApproved: {
+      type: Boolean,
+      default: false, // Company or admin approves driver
+    },
+  },
+  {
+    timestamps: true, // createdAt, updatedAt
+  },
+);
+
+module.exports = mongoose.model("DriverProfiles", driverProfileSchema);

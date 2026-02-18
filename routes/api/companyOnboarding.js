@@ -7,10 +7,11 @@ const verifyRoles = require("../../middleware/verifyRoles");
 router
   .route("/")
   .get(companyController.getAllCompanies)
-  .post(
-    verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company]),
-    companyController.handleCompanyOnboarding,
-  );
+  .post(companyController.handleCompanyOnboarding);
+//   .delete(
+//     verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company]),
+//     companyController.deleteCompany,
+//   );
 
 router
   .route("/:id")
@@ -32,5 +33,5 @@ router
 //     companyController.deleteCompany,
 //   );
 
-// console.log("Loading company routes...");
+console.log("Loading company routes...");
 module.exports = router;

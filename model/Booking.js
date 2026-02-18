@@ -1,71 +1,156 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const { BOOKING_STATUS } = require('../config/bookingStatus');
+const mongoose = require("mongoose");
 
-const locationSchema = new Schema({
-    latitude: {
-        type: Number,
-        required: true,
+const bookingSchema = new mongoose.Schema(
+  {
+    // User who created the booking
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+      required: [true, "User ID is required"],
     },
-    longitude: {
-        type: Number,
-        required: true,
-    }
-}, { _id: false }); // Disable a separate ID for this subdocument
 
-const bookingSchema = new Schema({
-    customerId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User', // Reference the User model
-        required: true,
+    // Driver assigned to the booking
+    driverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "DriverProfiles",
+      default: null,
     },
-    vehicleId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Vehicle', // Reference the Vehicle model
-        required: true,
-    },
+
+    // Company (if applicable)
     companyId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Company', // Reference the Company model
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CompanyProfiles",
+      default: null,
     },
-    driverProfileId: {
-        type: Schema.Types.ObjectId,
-        ref: 'DriverProfile', // Reference the DriverProfile model
-    },
-    pickupLocation: {
-        type: locationSchema, // Use the new nested schema
-        required: true,
-    },
-    dropOffLocation: {
-        type: locationSchema, // Use the new nested schema
-        required: true,
-    },
-    scheduledTime: {
-        type: Date,
-        required: true,
-    },
-    completionTime: {
-        type: Date,
-    },
-    totalPrice: {
-        type: Number,
-        required: true,
-    },
-    status: {
-        type: String,
-        enum: Object.values(BOOKING_STATUS), // Use enum to restrict values
-        default: BOOKING_STATUS.PENDING,
-        required: true,
-    },
-    isPaid: {
-        type: Boolean,
-        default: false,
-    },
-    // Optional field for payment method, e.g., 'cash', 'card'
-    paymentMethod: {
-        type: String,
-    }
-}, { timestamps: true });
 
-module.exports = mongoose.model('Booking', bookingSchema);
+    // Pickup Location
+    pickupLocation: {
+      latitude: {
+        type: Number,
+        required: [true, "Pickup latitude is required"],
+      },
+      longitude: {
+        type: Number,
+        required: [true, "Pickup longitude is required"],
+      },
+      address: {
+        type: String,
+        required: [true, "Pickup address is required"],
+      },
+    },
+
+    // Dropoff Location
+    dropoffLocation: {
+      latitude: {
+        type: Number,
+        required: [true, "Dropoff latitude is required"],
+      },
+      longitude: {
+        type: Number,
+        required: [true, "Dropoff longitude is required"],
+      },
+      address: {
+        type: String,
+        required: [true, "Dropoff address is required"],
+      },
+    },
+
+    // Booking Details
+    distance: {
+      type: Number, // in kilometers
+      required: true,
+      min: 0,
+    },
+    vehicleType: {
+      type: String,
+      enum: ["bike", "van", "pickup", "truck"],
+      required: [true, "Vehicle type is required"],
+    },
+
+    // Pricing
+    estimatedPrice: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    actualPrice: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    // Status
+    status: {
+      type: String,
+      enum: ["pending", "accepted", "in_progress", "completed", "cancelled"],
+      default: "pending",
+    },
+
+    // Payment
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "paid", "failed", "refunded"],
+      default: "pending",
+    },
+    paymentMethod: {
+      type: String,
+      enum: ["cash", "card", "wallet", "transfer", "ussd"],
+      default: "cash",
+    },
+
+    // Dates
+    scheduledDate: {
+      type: Date,
+      default: Date.now,
+    },
+    acceptedDate: {
+      type: Date,
+      default: null,
+    },
+    startedDate: {
+      type: Date,
+      default: null,
+    },
+    completedDate: {
+      type: Date,
+      default: null,
+    },
+    cancelledDate: {
+      type: Date,
+      default: null,
+    },
+
+    // Additional Info
+    notes: {
+      type: String,
+      default: "",
+    },
+    cancellationReason: {
+      type: String,
+      default: "",
+    },
+
+    // Rating (after completion)
+    rating: {
+      type: Number,
+      min: 1,
+      max: 5,
+      default: null,
+    },
+    review: {
+      type: String,
+      default: "",
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+// Indexes for faster queries
+bookingSchema.index({ userId: 1, status: 1 });
+bookingSchema.index({ driverId: 1, status: 1 });
+bookingSchema.index({ status: 1, vehicleType: 1 });
+bookingSchema.index({ createdAt: -1 });
+
+module.exports = mongoose.model("Bookings", bookingSchema);

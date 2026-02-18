@@ -10,7 +10,6 @@ router
   .route("/")
   .get(driverProfileController.getAllDrivers)
   .post(
-    verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Driver]),
     driverProfileController.handleDriverOnboarding,
   );
 
@@ -32,5 +31,6 @@ router
 //     verifyRoles([ROLES_LIST.Admin, ROLES_LIST.Company, ROLES_LIST.Driver]),
 //     driverProfileController.assignVehicleToDriver,
 //   );
+console.log("Loading Drivers routes ...");
 
 module.exports = router;
