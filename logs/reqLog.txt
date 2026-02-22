@@ -219,3 +219,12 @@
 20260218	20:54:40	8c083041-58fc-45b1-8ce2-2eb380093822	GET	undefined	/provider/earnings?period=today
 20260218	20:56:48	81f21bb7-4663-48e2-8f18-45b148592c5e	GET	undefined	/provider/earnings?period=week
 20260218	20:57:06	70adac4a-9930-4833-b816-3d33316e051e	GET	undefined	/provider/earnings?period=month
+20260222	17:23:33	08ca8913-a0af-46e7-b729-7c4fe4a06a0d	POST	undefined	/auth
+20260222	17:25:08	4ea366bc-7c3f-4dd8-8cef-f7d2bb81e4ef	POST	undefined	/auth
+20260222	17:32:21	9ee78137-ab98-44a2-9ca3-5e073c75b771	POST	undefined	/provider/status
+20260222	17:33:06	570e171f-0726-43ca-a9f6-b06d58574630	POST	undefined	/bookings
+20260222	17:35:16	6457ce05-5407-4ba8-9ee0-f0d7e20c51d6	POST	undefined	/provider/jobs/699615ab9881c81eafa74e2a/accept
+20260222	17:36:06	c7331d0b-0b19-458c-a0e7-caa29028aa2d	POST	undefined	/provider/jobs/699b2fc26fff565875819b28/accept
+20260222	17:36:31	d7923488-d34e-46f8-992e-646c036c5c77	POST	undefined	/provider/jobs/699b2fc26fff565875819b28/start
+20260222	17:36:57	4f4d1943-69a7-4ada-9f92-dcf363aa9815	POST	undefined	/provider/jobs/699b2fc26fff565875819b28/complete
+20260222	17:37:47	0946c921-01bd-4b29-93cd-e307b9b355c9	POST	undefined	/payments/initialize

@@ -68,7 +68,7 @@ app.use("/driver", require("./routes/api/driver"));
 // app.use("/job", require("./routes/api/job"));
 app.use("/provider", require("./routes/api/job"));
 
-app.use("/bookings", require("./routes/api/booking"));
+app.use("/bookings", require("./routes/api/booking")(io));
 app.use("/payments", require("./routes/api/payment"));
 app.use((req, res) => {
   res.status(404);
