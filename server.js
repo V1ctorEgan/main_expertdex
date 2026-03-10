@@ -15,8 +15,11 @@ const http = require("http");
 const { Server } = require("socket.io");
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
+const verifyRoles = require("./middleware/verifyRoles");
+const { ROLES_LIST } = require("./config/roles_list");
 
 // Initialize Socket.IO and attach it to the HTTP server
+
 const io = new Server(server, {
   cors: {
     origin: process.env.CLIENT_URL, // Allow connections from your frontend
@@ -58,7 +61,34 @@ app.use("/logout", require("./routes/logout"));
 
 app.use("/company/onboarding", require("./routes/api/companyOnboarding"));
 app.use("/driver/onboarding", require("./routes/api/driverOnboarding"));
+app.use("/api/vehicle-types", require("./routes/api/vehicleTypes"));
 
+// TEMPORARY DEBUG - DELETE AFTER FIXING
+app.get("/debug/check-user/:email", async (req, res) => {
+  const User = require("./model/Users");
+  const DriverProfile = require("./model/DriverProfiles");
+
+  try {
+    const user = await User.findOne({ email: req.params.email });
+    const driver = user
+      ? await DriverProfile.findOne({ userId: user._id })
+      : null;
+
+    res.json({
+      userExists: !!user,
+      userData: user
+        ? {
+            _id: user._id,
+            email: user.email,
+            accountType: user.accountType,
+          }
+        : null,
+      driverProfileExists: !!driver,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 app.use(verifyJWT);
 
 app.use("/company", require("./routes/api/company"));
@@ -67,6 +97,18 @@ app.use("/vehicle", require("./routes/api/vehicle"));
 app.use("/driver", require("./routes/api/driver"));
 // app.use("/job", require("./routes/api/job"));
 app.use("/provider", require("./routes/api/job"));
+
+app.use(
+  "/api/driver",
+  verifyRoles([ROLES_LIST.Driver]),
+  require("./routes/api/driverVehicle"),
+);
+
+app.use(
+  "/api/company/drivers",
+  verifyRoles([ROLES_LIST.Company, ROLES_LIST.Admin]),
+  require("./routes/api/companyDriver"),
+);
 
 app.use("/bookings", require("./routes/api/booking")(io));
 app.use("/payments", require("./routes/api/payment"));
